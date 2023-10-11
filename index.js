@@ -46,7 +46,7 @@ fetch(`https://api.api-ninjas.com/v1/dogs?energy=${dogEnergy}`, requestOptions)
   }
 
 
-  /* function PopulateDogBreedMenu(){
+  function PopulateDogBreedMenu(){
     const dogBreeds = document.getElementById("breeds");
     fetch(
       `https://api.api-ninjas.com/v1/dogs?name=${dogName}`,
@@ -65,7 +65,7 @@ fetch(`https://api.api-ninjas.com/v1/dogs?energy=${dogEnergy}`, requestOptions)
         dogBreeds.appendChild(p);
       });
     });
-  } */
+  } 
   fetchDogBreedDetails('3');
   PopulateDogBreedMenu();
 
