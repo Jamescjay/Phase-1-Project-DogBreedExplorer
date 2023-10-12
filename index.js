@@ -1,73 +1,50 @@
 document.addEventListener("DOMContentLoaded", () => {
-  function fetchDogBreedDetails(dogEnergy) {
-    var myHeaders = new Headers();
-myHeaders.append("X-Api-Key", "2ujXDP62s+wRKQKcy/7fng==PsgZKBri0ByBkKtn");
+  fetchDogBreedDetails();
+})
 
-var requestOptions = {
-  method: 'GET',
-  headers: myHeaders,
-  redirect: 'follow'
-};
+  function fetchDogBreedDetails(energy = "3") {
+    const myHeaders = new Headers();
+    myHeaders.append("X-Api-Key", "2ujXDP62s+wRKQKcy/7fng==PsgZKBri0ByBkKtn");
 
-fetch(`https://api.api-ninjas.com/v1/dogs?energy=${dogEnergy}`, requestOptions)
-  .then(response => response.json())
-      .then((data) => {
-       //const DogImage = document.getElementById("image_link");
-        const dogName = document.getElementById("name");
-        const dogGrooming = document.getElementById("grooming");
-        const strangerRel = document.getElementById("goodWithStrangers");
-        const dogPlayfulness = document.getElementById("playfulness")
-        const dogTrainability = document.getElementById("trainability");
-        const dogEnergy = document.getElementById("energy");
-        const dogBarking = document.getElementById("barking");
-       /*  const maxWeightMale = document.getElementById("maxMale");
-        const maxWeightFemale = document.getElementById("maxFemale");
-        const minWeightMale = document.getElementById("minMale");
-        const minWeightFemale = document.getElementById("minFemale"); */
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+    };
 
-        /* DogImage.src = data.image_link; */
-        //
-        dogName.textContent = data.name;
-       
-        dogGrooming.textContent = data.grooming;
-        strangerRel.textContent = data.good_with_strangers;
-        dogPlayfulness.textContent = data.playfulness;
-        dogTrainability.textContent = data.trainability;
-        dogEnergy.textContent = data.energy;
-        dogBarking.textContent = data.barking;
-        /* maxWeightMale.textContent = data.max_weight_male;
-        maxWeightFemale.textContent = data.max_weight_female;
-        minWeightMale.textContent = data.min_weight_male;
-        minWeightFemale.textContent = data.min_weight_female; */
-      })
-      .catch((error) =>
-        console.error("Error fetching dog breed details:", error)
-      );
-  }
+    fetch(`https://api.api-ninjas.com/v1/dogs?energy=${energy}`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => renderBreeds(result));
+    }
 
+   function renderBreeds(dogs){
+    const dogList = document.getElementById("breeds");
+    dogs.forEach((dogs) => {
+      const parentDiv = document.createElement('div');
+      parentDiv.classList.add('col');
 
-  function PopulateDogBreedMenu(){
-    const dogBreeds = document.getElementById("breeds");
-    fetch(
-      `https://api.api-ninjas.com/v1/dogs?name=${dogName}`,
-      requestOptions
-    )
-    .then((response) => response.json())
-    .then((data) => {
-      data.foreach((breed) => {
-        const p = document.createElement('p');
-        p.className = "dog breed";
-        p.textContent = breed.name;
-        p.setAttribute("data-energy", dogEnergy);
-        p.addEventListener("click", () => {
-          fetchDogBreedDetails(dogEnergy);
-        });
-        dogBreeds.appendChild(p);
-      });
-    });
-  } 
-  fetchDogBreedDetails('3');
-  PopulateDogBreedMenu();
+      const cardDiv = document.createElement("div");
+      cardDiv.classList.add('card');
 
-});
+      const img = document.createElement('img');
+      img.classList.add('card-img-top');
+      img.src = dogs.image_link;
+      img.alt = dogs.name;
+      img.height = 300;
+      cardDiv.appendChild(img);
+
+      const cardBody = document.createElement('div');
+      cardBody.classList.add('catd-body');
+      const title = document.createElement('h5');
+      title.textContent = dogs.name;
+      cardBody.appendChild(title);
+
+      cardDiv.appendChild(cardBody);
+
+      parentDiv.appendChild(cardDiv);
+      dogList.appendChild(parentDiv);
+    
+   });
+
+   }
+
 
